@@ -1,0 +1,6 @@
+domain: applight.418.cloud
+layout:
+- go.kubebuilder.io/v3
+projectName: altinn-applight-operator
+repo: github.com/tjololo/altinn-applight-operator
+version: "3"
