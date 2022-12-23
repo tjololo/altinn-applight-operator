@@ -9,4 +9,462 @@ metadata:
     app.kubernetes.io/created-by: altinn-applight-operator
   name: appdeployment-sample
 spec:
-  # TODO(user): Add fields here
+  foo: demo:local
+  layouts:
+  - id: test
+    model: test
+    tasks:
+      - Task1
+    pages:
+    - name: test
+      config: |
+        {
+          "$schema": "https://altinncdn.no/schemas/json/layout/layout.schema.v1.json",
+          "data": {
+            "layout": [
+              {
+                "id": "f5a74624-7c8c-4d03-89f0-b4065c976613",
+                "type": "Input",
+                "textResourceBindings": {
+                  "title": "label.submitter",
+                  "description": "label.submitter"
+                },
+                "dataModelBindings": {
+                  "simpleBinding": "Submitter"
+                },
+                "required": true,
+                "readOnly": false
+              },
+              {
+                "id": "ebd6e978-ef59-4ff3-a8c7-5e44138125b6",
+                "type": "Input",
+                "textResourceBindings": {
+                  "title": "label.ammount",
+                  "description": "label.ammount"
+                },
+                "dataModelBindings": {
+                  "simpleBinding": "Amount"
+                },
+                "required": true,
+                "readOnly": false
+              },
+              {
+                "id": "9f4c8522-cfde-4ae7-aa4a-38663e27d091",
+                "type": "Button",
+                "textResourceBindings": {
+                  "title": "Send inn"
+                },
+                "dataModelBindings": {}
+              }
+            ]
+          }
+        }
+
+  languageTexts:
+    nb:
+      label.test: tester
+    en:
+      label.test: testing
+  process: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:altinn="http://altinn.no" id="Altinn_SingleDataTask_Process_Definition" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="10.2.0">
+    <bpmn:process id="SingleDataTask" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_1">
+    <bpmn:outgoing>SequenceFlow_1n56yn5</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1n56yn5" sourceRef="StartEvent_1" targetRef="Task_1" />
+    <bpmn:task id="Task_1" name="Utfylling" altinn:tasktype="data">
+    <bpmn:incoming>SequenceFlow_1n56yn5</bpmn:incoming>
+    <bpmn:outgoing>Flow_0hyzkga</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0hyzkga" sourceRef="Task_1" targetRef="Task_2" />
+    <bpmn:task id="Task_2" name="Bekreftelse" altinn:tasktype="confirmation">
+    <bpmn:incoming>Flow_0hyzkga</bpmn:incoming>
+    <bpmn:outgoing>Flow_g2_end</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_g2_end" sourceRef="Task_2" targetRef="EndEvent_1" />
+    <bpmn:endEvent id="EndEvent_1">
+    <bpmn:incoming>Flow_g2_end</bpmn:incoming>
+    </bpmn:endEvent>
+    </bpmn:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SingleDataTask">
+    <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+    <dc:Bounds x="156" y="241" width="36" height="36" />
+    </bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+    <dc:Bounds x="300" y="219" width="100" height="80" />
+    </bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+    <dc:Bounds x="942" y="241" width="36" height="36" />
+    </bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Task_2_di" bpmnElement="Task_2">
+    <dc:Bounds x="600" y="80" width="100" height="80" />
+    <bpmndi:BPMNLabel />
+    </bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="SequenceFlow_1n56yn5_di" bpmnElement="SequenceFlow_1n56yn5">
+    <di:waypoint x="192" y="259" />
+    <di:waypoint x="300" y="259" />
+    </bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_0hyzkga_di" bpmnElement="Flow_0hyzkga">
+    <di:waypoint x="400" y="259" />
+    <di:waypoint x="495" y="259" />
+    </bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_g2_end_di" bpmnElement="Flow_g2_end">
+    <di:waypoint x="845" y="259" />
+    <di:waypoint x="942" y="259" />
+    </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+    </bpmn:definitions>
+
+
+  policy: |
+    <?xml version="1.0" encoding="utf-8"?>
+    <xacml:Policy xmlns:xsl="http://www.w3.org/2001/XMLSchema-instance" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="urn:altinn:example:policyid:1" Version="1.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides">
+      <xacml:Target/>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:1" Effect="Permit">
+        <xacml:Description>A rule giving user with role REGNA or DAGL and the app owner ttd the right to instantiate a instance of a given app of ttd/vga-datadriven-gateways</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">REGNA</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DAGL</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">instantiate</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:2" Effect="Permit">
+        <xacml:Description>Rule that defines that user with role REGNA or DAGL can read and write for ttd/vga-datadriven-gateways when it is in Task_1</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">REGNA</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DAGL</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Task_1</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:task" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">EndEvent_1</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:end-event" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:7" Effect="Permit">
+        <xacml:Description>Rule that defines that user with role REGNA or DAGL can read, write and confirm for ttd/vga-datadriven-gateways when it is in Task_2</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">REGNA</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DAGL</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Task_2</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:task" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">EndEvent_1</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:end-event" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">confirm</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:3" Effect="Permit">
+        <xacml:Description>Rule that defines that user with role REGNA or DAGL can delete instances of ttd/vga-datadriven-gateways</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">REGNA</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DAGL</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">delete</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:4" Effect="Permit">
+        <xacml:Description>Rule that defines that org can write to instances of ttd/vga-datadriven-gateways for any states</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:5" Effect="Permit">
+        <xacml:Description>Rule that defines that org can complete an instance of ttd/vga-datadriven-gateways which state is at the end event.</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">EndEvent_1</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:end-event" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">complete</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:Rule RuleId="urn:altinn:example:ruleid:6" Effect="Permit">
+        <xacml:Description>A rule giving user with role REGNA or DAGL and the app owner ttd the right to read the appresource events of a given app of ttd/vga-datadriven-gateways</xacml:Description>
+        <xacml:Target>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">REGNA</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:3.0:function:string-equal-ignore-case">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">DAGL</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:rolecode" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ttd</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:org" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">vga-datadriven-gateways</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:app" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">events</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:altinn:appresource" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+          <xacml:AnyOf>
+            <xacml:AllOf>
+              <xacml:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</xacml:AttributeValue>
+                <xacml:AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+              </xacml:Match>
+            </xacml:AllOf>
+          </xacml:AnyOf>
+        </xacml:Target>
+      </xacml:Rule>
+      <xacml:ObligationExpressions>
+        <xacml:ObligationExpression FulfillOn="Permit" ObligationId="urn:altinn:obligation:authenticationLevel1">
+          <xacml:AttributeAssignmentExpression AttributeId="urn:altinn:obligation1-assignment1" Category="urn:altinn:minimum-authenticationlevel">
+            <xacml:AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">2</xacml:AttributeValue>
+          </xacml:AttributeAssignmentExpression>
+        </xacml:ObligationExpression>
+      </xacml:ObligationExpressions>
+    </xacml:Policy>

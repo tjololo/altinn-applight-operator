@@ -28,8 +28,31 @@ type AppDeploymentSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of AppDeployment. Edit appdeployment_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Image defines the image to deploy
+	Image string `json:"foo,omitempty"`
+
+	// LayoutSets defines layoutsets for the app
+	LayoutSets []LayoutSet `json:"layouts,omitempty"`
+	// Process xml string defining the apps process
+	Process       string          `json:"process"`
+	LanguageTexts map[string]Text `json:"languageTexts"`
+	Policy        string          `json:"policy"`
+}
+
+type LayoutSet struct {
+	Id    string   `json:"id"`
+	Model string   `json:"model"`
+	Tasks []string `json:"tasks"`
+	Pages []Page   `json:"pages"`
+}
+
+type Page struct {
+	Name   string `json:"name"`
+	Config string `json:"config"`
+}
+
+type Text struct {
+	Text map[string]string `json:",inline"`
 }
 
 // AppDeploymentStatus defines the observed state of AppDeployment

@@ -36,9 +36,54 @@ spec:
             description: AppDeploymentSpec defines the desired state of AppDeployment
             properties:
               foo:
-                description: Foo is an example field of AppDeployment. Edit appdeployment_types.go
-                  to remove/update
+                description: Image defines the image to deploy
                 type: string
+              languageTexts:
+                additionalProperties:
+                  additionalProperties:
+                    type: string
+                  type: object
+                type: object
+              layouts:
+                description: LayoutSets defines layoutsets for the app
+                items:
+                  properties:
+                    id:
+                      type: string
+                    model:
+                      type: string
+                    pages:
+                      items:
+                        properties:
+                          config:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - config
+                        - name
+                        type: object
+                      type: array
+                    tasks:
+                      items:
+                        type: string
+                      type: array
+                  required:
+                  - id
+                  - model
+                  - pages
+                  - tasks
+                  type: object
+                type: array
+              policy:
+                type: string
+              process:
+                description: Process xml string defining the apps process
+                type: string
+            required:
+            - languageTexts
+            - policy
+            - process
             type: object
           status:
             description: AppDeploymentStatus defines the observed state of AppDeployment
