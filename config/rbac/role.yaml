@@ -1,0 +1,33 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - runtime.applight.418.cloud
+  resources:
+  - appdeployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - runtime.applight.418.cloud
+  resources:
+  - appdeployments/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - runtime.applight.418.cloud
+  resources:
+  - appdeployments/status
+  verbs:
+  - get
+  - patch
+  - update

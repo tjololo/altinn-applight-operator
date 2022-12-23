@@ -3,4 +3,14 @@ layout:
 - go.kubebuilder.io/v3
 projectName: altinn-applight-operator
 repo: github.com/tjololo/altinn-applight-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: applight.418.cloud
+  group: runtime
+  kind: AppDeployment
+  path: github.com/tjololo/altinn-applight-operator/api/v1alpha1
+  version: v1alpha1
 version: "3"

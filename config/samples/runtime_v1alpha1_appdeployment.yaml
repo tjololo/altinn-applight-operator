@@ -1,0 +1,12 @@
+apiVersion: runtime.applight.418.cloud/v1alpha1
+kind: AppDeployment
+metadata:
+  labels:
+    app.kubernetes.io/name: appdeployment
+    app.kubernetes.io/instance: appdeployment-sample
+    app.kubernetes.io/part-of: altinn-applight-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: altinn-applight-operator
+  name: appdeployment-sample
+spec:
+  # TODO(user): Add fields here
